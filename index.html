@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+	<title>Lottery</title>
+	<script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="./js/jQueryRotate.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#zhuanxin').click(function(){
+				//设置随机角度进行旋转，伪过滤边界值
+				var block=360/7;//假设有7块，每块边界则在360/7度的整数倍
+				var varang=parseInt(Math.random()*360);
+				if(varang%block==0){
+					varang=varang+1;
+				}
+				ang=varang+360*8;//转8-9圈
+				$('#zhuanxin').rotate({
+					duration:5000,
+					angle:0,
+					animateTo:ang
+				},function(){
+				//转完本地记录奖项
+				
+				});
+			});//click
+
+
+		});//ready
+
+
+	</script>
+	<style type="text/css">
+		body{
+			background:	#dfad6a;
+			margin: 0;
+		}
+		.zhuanpan{
+			text-align: center;
+			width: 600px;
+			margin: 50px auto 0;
+		}
+		.mycenter{
+			color: white;
+			background-color: #737373;
+			padding: 5px;
+			border: 1px solid black;
+			position: fixed;
+			top:0;
+			display: block;
+			right: 25px;
+			text-decoration: none;
+		}
+
+	</style>
+</head>
+<body>
+
+<div>
+<a class="mycenter" href="mycenter.html">My Center</a>
+</div>
+
+<div class="zhuanpan">
+<img  src="./images/rotate.png" id="zhuanxin">
+</div>
+
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login</title>
+	<meta charset="utf-8">
+	<script src="./js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript">
+
+		$(document).ready(function(){
+			//login validate and skip site
+			$('#loginbtn').click(function(event){
+				var username=$('#username');
+				var password=$('#password');
+				//send data and skip site
+				var regUser=JSON.parse(localStorage.getItem("userinfo"));
+				if(regUser!=null){
+					for(var i=0;i<regUser.length;i++){
+						if(regUser[i].username==username.val()
+							&&regUser[i].password==password.val()){
+						alert("登录成功！");
+						window.open("index.html");
+						return;
+						}
+					}
+				}
+				$('#error strong').text("ERROR");
+				event.preventDefault();
+			});
+			
+		});
+			
+	</script> 
+
+	<style type="text/css">
+	body{
+		background-color: #eee;
+	}
+	form{
+		text-align: center;
+		width: 320px;
+		height: 450px;
+		background-color: white;
+		padding: 20px;
+		border: 1px solid #696969;
+		margin: 0 auto;
+		overflow: auto;
+		display: block;
+	}
+	form label,input,img{
+		margin:10px auto;
+		display: block;
+	}
+	form input{
+		width: 200px;
+	}
+
+	.control{
+		color: white;
+		background-color: #737373;
+		padding: 3px 20px;
+		border: 1px solid black;
+		margin: 20px auto;
+		display: block;
+	}
+	</style>
+	
+</head>
+<body>
+
+<form>
+	<p>Sign in to <strong>Lottery System</strong> to continue.</p>
+	<p id="error"><strong style="color:red"></strong></p>
+	<div>
+	<label for="username">Username:</label>
+	<input type="text" id="username" name="unsername">
+	</div>
+	<div>
+	<label for="password">Password:</label>
+	<input type="password" id="password" name="password">
+	</div>
+	<div>
+	<img  src="./images/captcha.png">
+	<label for="captcha">Captcha:</label>
+	<input type="text" id="captcha" name="captcha">
+	</div>
+	<button class="control" id="loginbtn">Login</button>
+
+	<p>New to <strong>Lottery System</strong>?<a href="reg.html"> Create an account.</a></p>
+</form>
+
+
+</body>
+</html>

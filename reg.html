@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>register</title>
+	<script src="./js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript">
+	/* 脚本功能说明：
+	//用户名规则与重名验证
+	//邮箱名规则验证 
+	//密码规则验证与确认密码的正确性验证
+	//符合以上规则后，点击按钮进行登记信息并跳转页面
+	*/
+		//用于标识各个表框的正确性
+		var f1,f2,f3,f4; 
+		$(document).ready(function(){
+			//validate information of register
+				//validate username 
+				$('#username').blur(function(){
+					//用户名验证：
+					//用户名规则：第一个为字母，后为数字或字母，最少6位，最多16位
+					var userpatt = /^[A-z]\w{5,15}$/
+					if($('#username').val().match(userpatt)!=null){
+						f1=true;
+						//重名验证
+						var regUser=JSON.parse(localStorage.getItem("userinfo"));
+						if(regUser!=null){
+							for(var i=0;i<regUser.length;i++){
+								if(regUser[i].username==$('#username').val())
+								{
+									f1=false;
+								}
+							}
+						}
+
+					}
+					else {
+						f1=false;
+					}
+
+					if(f1==true){
+						$('#username').css("background-image","url(./images/right.png)");
+					}
+					else{
+						$('#username').css(
+						"background-image","url(./images/error.png)")
+					}
+					
+				});
+
+				//validate email
+				$('#email').blur(function(){
+					//以字母开头，下划线大小写字母数字5-20位，2-5位二级域名，2-5位顶级域名。
+					var emailpatt = /^[A-z]\w{5,20}@[a-z]{2,5}\.[a-z]{2,5}$/
+					if($('#email').val().match(emailpatt)!=null){
+						$('#email').css(
+						 	"background-image","url(./images/right.png)"
+						 );
+						f2=true;
+					}
+					else{
+						$('#email').css(
+						"background-image","url(./images/error.png)"
+						);
+						f2=false;
+					}
+				});
+
+				//validate password
+				$('#password').blur(function(){
+					//6-25位字母数字密码
+					var pswpatt = /^[A-z0-9]{6,25}$/
+					if($('#password').val().match(pswpatt)!=null){
+						$('#password').css(
+						 	"background-image","url(./images/right.png)"
+						 );
+						f3=true;
+					}
+					else{
+						$('#password').css(
+						 	"background-image","url(./images/error.png)"
+						 );
+						f3=false;
+					}
+				});
+
+				////validate repassword
+				$('#repassword').blur(function(){
+					if($('#repassword').val()==$('#password').val()
+						&& $('#repassword').val()!='')
+					{
+						$('#repassword').css(
+						 	"background-image","url(./images/right.png)"
+						 );
+						f4=true;
+					}
+					else{
+						$('#repassword').css(
+						 	"background-image","url(./images/error.png)"
+						 );
+						f4=false;
+					}
+				});
+
+				//register validate and skip website
+				$('#regbtn').click(function(event){
+					event.preventDefault();
+					if (f1==true&&f2==true&&f3==true&&f4==true) {
+						//将信息组织为对象
+						var userinfo={email:$('#email').val(), 
+									  username:$('#username').val(), 
+									  password:$('#password').val() 
+									 };
+						var regUser=JSON.parse(localStorage.getItem("userinfo"));
+						if (regUser==null) {
+							regUser=[];
+						}
+						regUser.push(userinfo);
+						localStorage.setItem("userinfo",JSON.stringify(regUser));
+						alert("注册成功！");
+						window.open("index.html");
+					}
+				});
+			});
+	</script>
+<style>
+	body{
+		background-color: #eee;
+	}
+	form{
+		width: 320px;
+		height: 550px;
+		background-color: white;
+		border: 1px solid #696969;
+		padding: 20px;
+		text-align: center;
+		margin: 0 auto;
+		overflow: auto;
+		display: block;
+	}
+	form label,input,img{
+		margin:10px auto;
+		display: block;
+	}
+	form input{
+		width: 170px;
+		padding-right: 30px;
+		border: 1px solid #B0C4DE;
+ 		background-position:right;
+		background-size:16px 16px;
+		background-repeat:no-repeat;
+	}
+
+	.control{
+		color: white;
+		background-color: #737373;
+		padding: 3px 20px;
+		border: 1px solid black;
+		margin: 20px auto;
+		display: block;
+	}
+	</style>
+</head>
+<body>
+<form>
+	<p>Register to <strong>Lottery System</strong> to continue</p>
+
+	<label for="email">E-mail </label>
+	<input type="text" id="email"> 
+
+	<label for="username">Username</label> 
+	<input type="text" id="username" placeholder="字母开头6-16位英文或数字">
+
+	<label for="password">Password</label>
+	<input type="password" id="password">
+
+	<label for="repassword">Repassword</label>
+	<input type="password" id="repassword">
+
+	<img  src="./images/captcha.png">
+	<label for="captcha">Captcha</label>
+	<input type="text" id="captcha" name="captcha">
+
+	<button class="control" id="regbtn">Register</button>
+
+	<p>has an account of <strong>Lottery System</strong>?<br/><a href="login.html"> Sign in.</a></p>
+</form>
+</body>
+</html>
